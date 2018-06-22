@@ -31,6 +31,11 @@ function Piano() {
     ]
   };
 
+  const code = {
+    shift: 16,
+    alt: 18
+  };
+
   const audios = Array.from(document.getElementsByTagName('audio'));
   const buttons = Array.from(document.getElementsByTagName('li'));
   buttons.forEach((btn, i) => 
@@ -41,15 +46,16 @@ function Piano() {
   setState(state);
 
   document.addEventListener('keydown', event => {
-    if (event.shiftKey && state !== states.LO) {
+    console.log(event.keyCode);
+    if (event.keyCode === code.shift && state !== states.LO) {
       setState(states.LO);
-    } else if (event.altKey && state !== states.HI) {
+    } else if (event.keyCode === code.alt && state !== states.HI) {
       setState(states.HI);
     }
   });
 
   document.addEventListener('keyup', event => {
-    if (state !== state.MI && !event.shiftKey && !event.altKey) {
+    if (state !== state.MI && (event.keyCode === code.shift || event.keyCode === code.alt)) {
       setState(states.MI);
     }
   });
