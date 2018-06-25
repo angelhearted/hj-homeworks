@@ -25,14 +25,34 @@ function backClick() {
   container.classList.remove('details');
   const items = document.querySelectorAll('.list-view li');
   for (let item of items) {
-      item.classList.remove('active');
+    item.classList.remove('active');
   }
+}
+
+function displayContacts() {
+  const contacts = Array.from(JSON.parse(loadContacts()));
+  const list = container.querySelector('.contacts-list');
+  list.innerHTML = '';
+
+  contacts.forEach(cont => list.appendChild(createContactHtml(cont)));
+}
+
+function createContactHtml(data) {
+  const li = document.createElement('li');
+  li.dataset.email = data.email;
+  li.dataset.phone = data.phone;
+
+  const name = document.createElement('strong');
+  li.appendChild(name)
+  name.textContent = data.name;
+  return li;
 }
 
 function init() {
   container = document.getElementById('container');
   container.querySelector('.list-view').addEventListener('click', contactClick);
   container.querySelector('.back').addEventListener('click', backClick);
+  displayContacts();
 }
 
 document.addEventListener('DOMContentLoaded', init);
